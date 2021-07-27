@@ -37,9 +37,9 @@
 *.vcxproj.filters
 
 # Visual Studio Folders
-.vs/
-x64/
+/.vs/
+/x64/
 
 # Libraries
-glm/
-stb/
+/glm/
+/stb/
