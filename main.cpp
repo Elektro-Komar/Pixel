@@ -230,7 +230,7 @@ int main()
             CurLvl = lvl;
         }
         Time = glfwGetTime();
-        if (Time >= 0.5 && Time <= 1.0 && Moved >= 0)
+        if (Time >= 0.5 && Time <= 1.0 && Moved >= 0 && lvl != 0)
         {
             TIMER_POSITIONS[Moved] = glm::vec2(2.0f, 2.0f);
             Moved--;
