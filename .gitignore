@@ -18,3 +18,9 @@
 # Folders
 /fonts
 /Textures
+
+# .gitignore not working?:
+# git rm -r --cache .
+# git add .
+# git commit -m ".gitignore now working"
+# git push
