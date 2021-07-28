@@ -43,4 +43,4 @@
 # Libraries
 /glm
 /stb
-*.cpp
+*.h
