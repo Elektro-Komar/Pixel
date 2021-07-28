@@ -43,4 +43,5 @@
 # Libraries
 /glm
 /stb
-*.h
+/Textures
+/fonts
