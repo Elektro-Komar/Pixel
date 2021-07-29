@@ -4,10 +4,11 @@
 #include <stdlib.h>
 #include <iomanip>
 #include "Shaders.h"
-#include "Defines.h"
+#include "Definitions.h"
 #include "Functions.h"
+#include "Variables.h"
 #include <GLFW/glfw3.h>
-
+#include <stb_image.h>
 // Window dimensions
 const GLuint WIDTH = 800, HEIGHT = 800;
 glm::vec2 PlayerPos(LEFT(0.7f), UP(0.9f));
