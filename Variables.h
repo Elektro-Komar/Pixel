@@ -24,10 +24,7 @@ glm::vec2 Lvl2[] = {  // Lvl 1 Enemies Positions
     glm::vec2(RIGHT(0.5f), DOWN(0.4f)),
     glm::vec2(LEFT(0.5f), DOWN(0.3f))
 };
-// Walls Positions
-glm::vec2 WallLvl2[] = {
-    glm::vec2(RIGHT(0.4f), UP(0.6f))
-};
+
 
 
 // Lvl's Lengths

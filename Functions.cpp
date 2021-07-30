@@ -57,19 +57,6 @@ void DoCollisions(glm::vec2 Obj1, glm::vec2* Obj2, int length, glm::vec2 Obj1Siz
 }
 
 
-//TODO: Dokonczyc Sciane
-void WallObject(glm::vec2 WallPosition, glm::vec2 WallSize, glm::vec2* PlayerPosition, glm::vec2 PlayerSize, glm::vec2 Kierunek)
-{
-    // X == -0.1f = Wejscie z prawej &PlayerPosition += 0.1f
-    // X == 0.1f = Wejscie z lewej
-    // Y == -0.1f = Wejscie od gory
-    // Y == 0.1f = Wejscie od dolu
-    // Sciana jest na levelu 2
-    if (Kierunek.x == -0.1 && CheckCollision(WallPosition, *PlayerPosition, WallSize, PlayerSize)) //ERROR: Not works
-        std::cout << Kierunek.x << std::endl;
-}
-
-
 void Menu(GameStatus status)
 {
     //TODO: Dorobic menu dla - DEAD i PAUSE

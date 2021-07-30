@@ -49,7 +49,7 @@ int main()
         std::cout << "Failed to initialize GLEW" << std::endl;
         return EXIT_FAILURE;
     }
-
+    
     // Define the viewport dimensions
     glViewport(0, 0, screenWidth, screenHeight);
     glfwSetWindowPos(window, ((1920 / 2) / 2) - 25, ((1280 / 2) / 2) - 175);
@@ -184,9 +184,7 @@ int main()
     double Time = 0;
     int Moved = 21;
     int CurLvl = lvl;
-    glm::vec2 PreviousPlayerPos2(PlayerPos);
-    glm::vec2 PreviousPlayerPos(PreviousPlayerPos2);
-    glm::vec2 Kierunek = PlayerPos - PreviousPlayerPos;
+
     while (!glfwWindowShouldClose(window))
     {
         glfwPollEvents();
@@ -202,13 +200,7 @@ int main()
         WColidedArrIndex[1] = -1;
         WColidedArrIndex[2] = -1;
         WColidedArrIndex[3] = -1;
-        if (PreviousPlayerPos2 != PlayerPos)
-        {
-            PreviousPlayerPos = PreviousPlayerPos2;
-            PreviousPlayerPos2 = PlayerPos;
-        }
-        Kierunek = PlayerPos - PreviousPlayerPos;
-        
+
         //                   TIMER
         if (lvl >= 1 && Moved > 0 && CurLvl != lvl)
         {
@@ -224,7 +216,6 @@ int main()
         {
             TIMER_POSITIONS[Moved] = glm::vec2(2.0f, 2.0f);
             Moved--;
-            std::cout << "Kierunek x: " << Kierunek.x << " Kierunek Y: " << Kierunek.y << std::endl;
             glfwSetTime(0.0);
         }
         else if (Moved < 0)
@@ -247,7 +238,7 @@ int main()
             DrawObj(shaderProgram, VAO, 6, Lvl1Coin, PlayerPosition_Location, CoinColor, PlayerColor_Location);
             //Kolizje do Przeciwnikow
             DoCollisions(PlayerPos, Lvl1, LVL1_LENGTH, PECSize, PECSize, &EColidedArrIndex, &EColision);
-            //Kolizje do sciany
+            //Kolizje do sciany 
             Wall(PlayerPos, WALLUP, WALLLEFT, WALLDOWN, WALLRIGHT, 21, PECSize, WColidedArrIndex, WallCol);
             //            Drawing Timer
             DrawObjects(TIMER_POSITIONS, 21, shaderProgram, VAO, 6, PlayerPosition_Location, glm::vec3(0.0f, 0.5f, 0.5f), PlayerColor_Location);
@@ -267,12 +258,10 @@ int main()
             DrawObj(shaderProgram, VAO, 6, PlayerPos, PlayerPosition_Location, PlayerColor, PlayerColor_Location); // Player
             DrawObjects(Lvl2, LVL2_LENGTH, shaderProgram, VAO, 6, PlayerPosition_Location, EnemyColor, PlayerColor_Location); // Drawing Lvl1
             DrawObj(shaderProgram, VAO, 6, Lvl2Coin, PlayerPosition_Location, CoinColor, PlayerColor_Location);
-            DrawObj(shaderProgram, VAO, 6, WallLvl2[0], PlayerPosition_Location, WallColor, PlayerColor_Location);
             //Kolizje
             DoCollisions(PlayerPos, Lvl2, LVL2_LENGTH, PECSize, PECSize, &EColidedArrIndex, &EColision);
             //Kolizje Do sciany
             Wall(PlayerPos, WALLUP, WALLLEFT, WALLDOWN, WALLRIGHT, 21, PECSize, WColidedArrIndex, WallCol);
-            WallObject(WallLvl2[0], PECSize, &PlayerPos, PECSize, Kierunek);
             //TIMER
             DrawObjects(TIMER_POSITIONS, 21, shaderProgram, VAO, 6, PlayerPosition_Location, glm::vec3(0.0f, 0.5f, 0.5f), PlayerColor_Location);
             if (EColision == true) // Sprawdza czy gracz wszedl w jakiegos przeciwnika jesli tak to lvl--
