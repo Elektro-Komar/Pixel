@@ -2,6 +2,8 @@
 #include <GL/glew.h>
 #include "Definitions.h"
 //  Enemy Positions
+
+
 glm::vec2 Lvl1[] = {  // Lvl 1 Enemies Positions
     glm::vec2(LEFT(0.2f), UP(0.2f)), // 0
     glm::vec2(RIGHT(0.2f), UP(0.4f)), // 1 ...

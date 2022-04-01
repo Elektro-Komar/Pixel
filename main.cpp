@@ -228,7 +228,7 @@ int main()
             glfwSetTime(0.0);
         }
         else if (Moved < 0)
-            Menu(GameStatus::DEAD);
+            lvl = 0;
         //                   TIMER END
 
         if (lvl == 1)
@@ -250,7 +250,7 @@ int main()
             //            Drawing Timer
             DrawObjects(TIMER_POSITIONS, 21, shaderProgram, VAO, 6, Position_Location, glm::vec3(0.0f, 0.5f, 0.5f), Color_Location);
             if (EColision) // Sprawdza czy gracz wszedl w  przeciwnika jesli tak to smierc
-                Menu(GameStatus::DEAD);
+                lvl = 0;
             
             else if (CheckCollision(PlayerPos, Lvl1Coin, PECSize, PECSize)) // jesli gracz wszedl w Monetke lvl++
                 lvl++;
@@ -279,7 +279,7 @@ int main()
             DrawObjects(TIMER_POSITIONS, 21, shaderProgram, VAO, 6, Position_Location, glm::vec3(0.0f, 0.5f, 0.5f), Color_Location);
             if (EColision == true) // Sprawdza czy gracz wszedl w jakiegos przeciwnika jesli tak to smierc
             {
-                Menu(GameStatus::DEAD);
+                lvl = 0;
                 SetPos = false;
             }
             else if (CheckCollision(PlayerPos, Lvl2Coin, PECSize, PECSize)) // jesli gracz wszedl w Monetke lvl++

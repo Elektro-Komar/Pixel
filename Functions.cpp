@@ -1,6 +1,5 @@
 #include "Functions.h"
 
-
 /*
     Draws one object
     @param Program - Shader Program
@@ -62,7 +61,7 @@ void Menu(GameStatus status)
     //TODO: Dorobic menu dla - DEAD i PAUSE
     if (status == GameStatus::DEAD)
     {
-        // ...
+        
     }
     if (status == GameStatus::PAUSE)
     {
