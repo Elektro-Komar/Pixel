@@ -1,4 +1,4 @@
 # Pixel version
-1.0
+1.1
 # Libraries used
 GLFW, GLEW, GLM, STB, FREETYPE
