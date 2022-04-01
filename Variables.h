@@ -3,8 +3,8 @@
 #include "Definitions.h"
 //  Enemy Positions
 glm::vec2 Lvl1[] = {  // Lvl 1 Enemies Positions
-    glm::vec2(LEFT(0.2f), UP(0.2f)),
-    glm::vec2(RIGHT(0.2f), UP(0.4f)),
+    glm::vec2(LEFT(0.2f), UP(0.2f)), // 0
+    glm::vec2(RIGHT(0.2f), UP(0.4f)), // 1 ...
     glm::vec2(RIGHT(0.4f), DOWN(0.2f)),
     glm::vec2(LEFT(0.8f), UP(0.1f)),
     glm::vec2(RIGHT(0.1f), DOWN(0.3f)),
@@ -24,12 +24,14 @@ glm::vec2 Lvl2[] = {  // Lvl 1 Enemies Positions
     glm::vec2(RIGHT(0.5f), DOWN(0.4f)),
     glm::vec2(LEFT(0.5f), DOWN(0.3f))
 };
-
-
-
+glm::vec2 Lvl2Walls[] =
+{
+    glm::vec2(LEFT(0.4f), UP(0.4f))
+};
 // Lvl's Lengths
 #define LVL1_LENGTH 7
 #define LVL2_LENGTH 10
+#define LVL2WALLS_LENGTH 1
 #define LVL2_WALL_LENGTH 1
 
 glm::vec2 WALLUP[] = {
