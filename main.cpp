@@ -310,24 +310,30 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
     if (key == GLFW_KEY_ESCAPE && CLICKED(key, action))
     {
         pause = !pause;
-        Menu(GameStatus::PAUSE);
     }
-    if (action == GLFW_PRESS || action == GLFW_REPEAT && action != GLFW_RELEASE && pause != true)
+    if (pause == true)
     {
-        switch (key)
+        Menu(GameStatus::PAUSE, key, action);
+    }
+    if (action == GLFW_PRESS || action == GLFW_REPEAT && action != GLFW_RELEASE)
+    {
+        if (pause == false)
         {
-        case GLFW_KEY_UP:
-            PlayerPos.y += UP(0.1f);
-            break;
-        case GLFW_KEY_LEFT:
-            PlayerPos.x += LEFT(0.1f);
-            break;
-        case GLFW_KEY_RIGHT:
-            PlayerPos.x += RIGHT(0.1f);
-            break;
-        case GLFW_KEY_DOWN:
-            PlayerPos.y += DOWN(0.1f);
-            break;
+            switch (key)
+            {
+            case GLFW_KEY_UP:
+                PlayerPos.y += UP(0.1f);
+                break;
+            case GLFW_KEY_LEFT:
+                PlayerPos.x += LEFT(0.1f);
+                break;
+            case GLFW_KEY_RIGHT:
+                PlayerPos.x += RIGHT(0.1f);
+                break;
+            case GLFW_KEY_DOWN:
+                PlayerPos.y += DOWN(0.1f);
+                break;
+            }
         }
         //////////// DEBUG //////////////
         switch (key)

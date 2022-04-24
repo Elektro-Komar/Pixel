@@ -56,7 +56,7 @@ void DoCollisions(glm::vec2 Obj1, glm::vec2* Obj2, int length, glm::vec2 Obj1Siz
 }
 
 
-void Menu(GameStatus status)
+void Menu(GameStatus status, int key, int action)
 {
     //TODO: Dorobic menu dla - DEAD i PAUSE
     if (status == GameStatus::DEAD)
@@ -65,6 +65,6 @@ void Menu(GameStatus status)
     }
     if (status == GameStatus::PAUSE)
     {
-
+        
     }
 }
