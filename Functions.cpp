@@ -62,13 +62,9 @@ void Menu(GameStatus status)
     if (status == GameStatus::DEAD)
     {
         
-  
     }
     if (status == GameStatus::PAUSE)
     {
-        while (true)
-        {
-            glfwSetTime(0.0);
-        }
+
     }
 }

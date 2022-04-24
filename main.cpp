@@ -18,6 +18,7 @@ bool SetPos = false;
 int lvl = 1;
 bool Fullscreen;
 bool pause = false;
+
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 int main()
@@ -307,7 +308,10 @@ int main()
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (key == GLFW_KEY_ESCAPE && CLICKED(key, action))
+    {
         pause = !pause;
+        Menu(GameStatus::PAUSE);
+    }
     if (action == GLFW_PRESS || action == GLFW_REPEAT && action != GLFW_RELEASE && pause != true)
     {
         switch (key)
@@ -334,7 +338,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
         case GLFW_KEY_2:
             lvl = 2;
             break;
-        case GLFW_KEY_P: // PRINTS POSITION
+        case GLFW_KEY_Y: // PRINTS POSITION
             std::cout << "X: " << PlayerPos.x << " Y: " << PlayerPos.y << std::endl;
             break;
         }

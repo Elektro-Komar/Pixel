@@ -6,10 +6,8 @@
 #include <GLFW/glfw3.h>
 enum class GameStatus {
     DEAD,
-    PAUSE,
-    PLAYING
+    PAUSE
 };
-
 void DrawObj(GLuint Program, GLuint VerArrayObj, GLint vertices, glm::vec2 pos, GLint PositionLoc, glm::vec3 color, GLint ColorLoc);
 void DrawObjects(glm::vec2* Positions, int length, GLuint Program, GLuint VerArrayObj, GLint vertices, GLint PosLoc, glm::vec3 col, GLint ColorLoc);
 bool CheckCollision(glm::vec2 Obj1, glm::vec2 Obj2, glm::vec2 Obj1Size, glm::vec2 Obj2Size);
