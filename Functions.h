@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
+#include <GLFW/glfw3.h>
 enum class GameStatus {
     DEAD,
     PAUSE,

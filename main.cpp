@@ -17,6 +17,7 @@ glm::vec2 PrevPPos2 = PlayerPos;
 bool SetPos = false;
 int lvl = 1;
 bool Fullscreen;
+bool pause = false;
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 int main()
@@ -29,7 +30,7 @@ int main()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE); // Not Resizable
     // Create a GLFWwindow object that we can use for GLFW's functions
-    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Pixel & Play", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Pixel", NULL, nullptr);
     int screenWidth, screenHeight;
     glfwGetFramebufferSize(window, &screenWidth, &screenHeight);
 
@@ -203,92 +204,93 @@ int main()
         WColidedArrIndex[3] = -1;
 
 
-
-        //                   PrevPos
-        if (PrevPPos2 != PlayerPos)
+        if (pause != true) // JAK KLIKNIETO ESCAPE TO NIC SIE NIE WYSWIETLA I JEST ZATRZYMANY CZAS
         {
-            PrevPPos = PrevPPos2;
-            PrevPPos2 = PlayerPos;
-        }
-        //                   TIMER
-        if (lvl >= 1 && Moved > 0 && CurLvl != lvl)
-        {
-            Moved = 21;
-            for (int i = 0; i < 21; i++)
+            //                   PrevPos
+            if (PrevPPos2 != PlayerPos)
             {
-                TIMER_POSITIONS[i] = TIMER_POSITIONS_COPY[i];
+                PrevPPos = PrevPPos2;
+                PrevPPos2 = PlayerPos;
             }
-            CurLvl = lvl;
-        }
-        Time = glfwGetTime();
-        if (Time >= 0.5 && Moved >= 0 && lvl != 0) // Powtarza co 0.5s 
-        {
-            TIMER_POSITIONS[Moved] = glm::vec2(2.0f, 2.0f);
-            Moved--;
-            glfwSetTime(0.0);
-        }
-        else if (Moved < 0)
-            lvl = 0;
-        //                   TIMER END
-
-        if (lvl == 1)
-        {
-
-            if (!SetPos)
+            //                   TIMER
+            if (lvl >= 1 && Moved > 0 && CurLvl != lvl)
             {
-                PlayerPos = glm::vec2(LEFT(0.8f), UP(0.9f));
-                SetPos = true;
+                Moved = 21;
+                for (int i = 0; i < 21; i++)
+                {
+                    TIMER_POSITIONS[i] = TIMER_POSITIONS_COPY[i];
+                }
+                CurLvl = lvl;
             }
-            // Draw Lvl1
-            DrawObj(shaderProgram, VAO, 6, PlayerPos, Position_Location, PlayerColor, Color_Location); // Player
-            DrawObjects(Lvl1, LVL1_LENGTH, shaderProgram, VAO, 6, Position_Location, EnemyColor, Color_Location); // Drawing Lvl1
-            DrawObj(shaderProgram, VAO, 6, Lvl1Coin, Position_Location, CoinColor, Color_Location);
-            //Kolizje do Przeciwnikow
-            DoCollisions(PlayerPos, Lvl1, LVL1_LENGTH, PECSize, PECSize, &EColidedArrIndex, &EColision);
-            //Kolizje do sciany 
-            Wall(PlayerPos, WALLUP, WALLLEFT, WALLDOWN, WALLRIGHT, 21, PECSize, WColidedArrIndex, WallCol);
-            //            Drawing Timer
-            DrawObjects(TIMER_POSITIONS, 21, shaderProgram, VAO, 6, Position_Location, glm::vec3(0.0f, 0.5f, 0.5f), Color_Location);
-            if (EColision) // Sprawdza czy gracz wszedl w  przeciwnika jesli tak to smierc
+            Time = glfwGetTime();
+            if (Time >= 0.5 && Moved >= 0 && lvl != 0) // Powtarza co 0.5s 
+            {
+                TIMER_POSITIONS[Moved] = glm::vec2(2.0f, 2.0f);
+                Moved--;
+                glfwSetTime(0.0);
+            }
+            else if (Moved < 0)
                 lvl = 0;
-            
-            else if (CheckCollision(PlayerPos, Lvl1Coin, PECSize, PECSize)) // jesli gracz wszedl w Monetke lvl++
-                lvl++;
-        }
-        if (lvl == 2)
-        {
-            if (!SetPos)
-            {
-                PlayerPos = glm::vec2(RIGHT(0.8f), DOWN(0.9f));
-                SetPos = true;
-            }
-            // Draw Lvl1
-            DrawObj(shaderProgram, VAO, 6, PlayerPos, Position_Location, PlayerColor, Color_Location); // Player
-            DrawObjects(Lvl2, LVL2_LENGTH, shaderProgram, VAO, 6, Position_Location, EnemyColor, Color_Location); // Drawing Lvl1
-            DrawObjects(Lvl2Walls, LVL2_WALL_LENGTH, shaderProgram, VAO, 6, Position_Location, WallColor, Color_Location);
-            if (CheckCollision(PlayerPos, Lvl2Walls[0], PECSize, PECSize))
-            {
-                PlayerPos = PrevPPos;
-            }
-            DrawObj(shaderProgram, VAO, 6, Lvl2Coin, Position_Location, CoinColor, Color_Location);
-            //Kolizje do przeciwnikow
-            DoCollisions(PlayerPos, Lvl2, LVL2_LENGTH, PECSize, PECSize, &EColidedArrIndex, &EColision);
-            //Kolizje Do sciany
-            Wall(PlayerPos, WALLUP, WALLLEFT, WALLDOWN, WALLRIGHT, 21, PECSize, WColidedArrIndex, WallCol);
-            //TIMER
-            DrawObjects(TIMER_POSITIONS, 21, shaderProgram, VAO, 6, Position_Location, glm::vec3(0.0f, 0.5f, 0.5f), Color_Location);
-            if (EColision == true) // Sprawdza czy gracz wszedl w jakiegos przeciwnika jesli tak to smierc
-            {
-                lvl = 0;
-                SetPos = false;
-            }
-            else if (CheckCollision(PlayerPos, Lvl2Coin, PECSize, PECSize)) // jesli gracz wszedl w Monetke lvl++
-            {
-                lvl++;
-                SetPos = false;
-            }
-        }
+            //                   TIMER END
 
+            if (lvl == 1)
+            {
+
+                if (!SetPos)
+                {
+                    PlayerPos = glm::vec2(LEFT(0.8f), UP(0.9f));
+                    SetPos = true;
+                }
+                // Draw Lvl1
+                DrawObj(shaderProgram, VAO, 6, PlayerPos, Position_Location, PlayerColor, Color_Location); // Player
+                DrawObjects(Lvl1, LVL1_LENGTH, shaderProgram, VAO, 6, Position_Location, EnemyColor, Color_Location); // Drawing Lvl1
+                DrawObj(shaderProgram, VAO, 6, Lvl1Coin, Position_Location, CoinColor, Color_Location);
+                //Kolizje do Przeciwnikow
+                DoCollisions(PlayerPos, Lvl1, LVL1_LENGTH, PECSize, PECSize, &EColidedArrIndex, &EColision);
+                //Kolizje do sciany 
+                Wall(PlayerPos, WALLUP, WALLLEFT, WALLDOWN, WALLRIGHT, 21, PECSize, WColidedArrIndex, WallCol);
+                //            Drawing Timer
+                DrawObjects(TIMER_POSITIONS, 21, shaderProgram, VAO, 6, Position_Location, glm::vec3(0.0f, 0.5f, 0.5f), Color_Location);
+                if (EColision) // Sprawdza czy gracz wszedl w  przeciwnika jesli tak to smierc
+                    lvl = 0;
+
+                else if (CheckCollision(PlayerPos, Lvl1Coin, PECSize, PECSize)) // jesli gracz wszedl w Monetke lvl++
+                    lvl++;
+            }
+            if (lvl == 2)
+            {
+                if (!SetPos)
+                {
+                    PlayerPos = glm::vec2(RIGHT(0.8f), DOWN(0.9f));
+                    SetPos = true;
+                }
+                // Draw Lvl1
+                DrawObj(shaderProgram, VAO, 6, PlayerPos, Position_Location, PlayerColor, Color_Location); // Player
+                DrawObjects(Lvl2, LVL2_LENGTH, shaderProgram, VAO, 6, Position_Location, EnemyColor, Color_Location); // Drawing Lvl1
+                DrawObjects(Lvl2Walls, LVL2_WALL_LENGTH, shaderProgram, VAO, 6, Position_Location, WallColor, Color_Location);
+                if (CheckCollision(PlayerPos, Lvl2Walls[0], PECSize, PECSize))
+                {
+                    PlayerPos = PrevPPos;
+                }
+                DrawObj(shaderProgram, VAO, 6, Lvl2Coin, Position_Location, CoinColor, Color_Location);
+                //Kolizje do przeciwnikow
+                DoCollisions(PlayerPos, Lvl2, LVL2_LENGTH, PECSize, PECSize, &EColidedArrIndex, &EColision);
+                //Kolizje Do sciany
+                Wall(PlayerPos, WALLUP, WALLLEFT, WALLDOWN, WALLRIGHT, 21, PECSize, WColidedArrIndex, WallCol);
+                //TIMER
+                DrawObjects(TIMER_POSITIONS, 21, shaderProgram, VAO, 6, Position_Location, glm::vec3(0.0f, 0.5f, 0.5f), Color_Location);
+                if (EColision == true) // Sprawdza czy gracz wszedl w jakiegos przeciwnika jesli tak to smierc
+                {
+                    lvl = 0;
+                    SetPos = false;
+                }
+                else if (CheckCollision(PlayerPos, Lvl2Coin, PECSize, PECSize)) // jesli gracz wszedl w Monetke lvl++
+                {
+                    lvl++;
+                    SetPos = false;
+                }
+            }
+        }
 
         glBindVertexArray(0);
         glfwSwapBuffers(window);
@@ -304,10 +306,9 @@ int main()
 
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    
     if (key == GLFW_KEY_ESCAPE && CLICKED(key, action))
-        Menu(GameStatus::PAUSE);
-    if (action == GLFW_PRESS || action == GLFW_REPEAT && action != GLFW_RELEASE)
+        pause = !pause;
+    if (action == GLFW_PRESS || action == GLFW_REPEAT && action != GLFW_RELEASE && pause != true)
     {
         switch (key)
         {
@@ -333,7 +334,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
         case GLFW_KEY_2:
             lvl = 2;
             break;
-        case GLFW_KEY_D: // DEBUG
+        case GLFW_KEY_P: // PRINTS POSITION
             std::cout << "X: " << PlayerPos.x << " Y: " << PlayerPos.y << std::endl;
             break;
         }

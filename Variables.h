@@ -1,5 +1,7 @@
 #pragma once
 #include <GL/glew.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "Definitions.h"
 //  Enemy Positions
 
