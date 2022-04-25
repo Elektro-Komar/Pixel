@@ -166,13 +166,17 @@ int main()
     //   Colisions
     bool EColision = false;
     int EColidedArrIndex = -1;
+
+    bool WColision = false;
+    int WColidedArrIndex = -1;
+
     bool WallCol[] = {
         false,
         false,
         false,
         false
     };
-    int WColidedArrIndex[] = {
+    int WallsColidedArrIndex[] = {
         -1,
         -1,
         -1,
@@ -195,14 +199,18 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
         EColision = false;
         EColidedArrIndex = -1;
+        WColision = false;
+        WColidedArrIndex = -1;
+
         WallCol[0] = false;
         WallCol[1] = false;
         WallCol[2] = false;
         WallCol[3] = false;
-        WColidedArrIndex[0] = -1;
-        WColidedArrIndex[1] = -1;
-        WColidedArrIndex[2] = -1;
-        WColidedArrIndex[3] = -1;
+        WallsColidedArrIndex[0] = -1;
+        WallsColidedArrIndex[1] = -1;
+        WallsColidedArrIndex[2] = -1;
+        WallsColidedArrIndex[3] = -1;
+        
 
 
         if (pause != true) // JAK KLIKNIETO ESCAPE TO NIC SIE NIE WYSWIETLA I JEST ZATRZYMANY CZAS
@@ -249,7 +257,7 @@ int main()
                 //Kolizje do Przeciwnikow
                 DoCollisions(PlayerPos, Lvl1, LVL1_LENGTH, PECSize, PECSize, &EColidedArrIndex, &EColision);
                 //Kolizje do sciany 
-                Wall(PlayerPos, WALLUP, WALLLEFT, WALLDOWN, WALLRIGHT, 21, PECSize, WColidedArrIndex, WallCol);
+                Wall(PlayerPos, WALLUP, WALLLEFT, WALLDOWN, WALLRIGHT, 21, PECSize, WallsColidedArrIndex, WallCol);
                 //            Drawing Timer
                 DrawObjects(TIMER_POSITIONS, 21, shaderProgram, VAO, 6, Position_Location, glm::vec3(0.0f, 0.5f, 0.5f), Color_Location);
                 if (EColision) // Sprawdza czy gracz wszedl w  przeciwnika jesli tak to smierc
@@ -265,22 +273,28 @@ int main()
                     PlayerPos = glm::vec2(RIGHT(0.8f), DOWN(0.9f));
                     SetPos = true;
                 }
-                // Draw Lvl1
-                DrawObj(shaderProgram, VAO, 6, PlayerPos, Position_Location, PlayerColor, Color_Location); // Player
-                DrawObjects(Lvl2, LVL2_LENGTH, shaderProgram, VAO, 6, Position_Location, EnemyColor, Color_Location); // Drawing Lvl1
-                DrawObjects(Lvl2Walls, LVL2_WALL_LENGTH, shaderProgram, VAO, 6, Position_Location, WallColor, Color_Location);
-                if (CheckCollision(PlayerPos, Lvl2Walls[0], PECSize, PECSize))
-                {
+
+                DrawObj(shaderProgram, VAO, 6, PlayerPos, Position_Location, PlayerColor, Color_Location); // Drawing Player
+
+                DrawObjects(Lvl2, LVL2_LENGTH, shaderProgram, VAO, 6, Position_Location, EnemyColor, Color_Location); // Drawing Lvl2 ( Enemies )
+
+                DrawObjects(Lvl2Walls, LVL2_WALLS_LENGTH, shaderProgram, VAO, 6, Position_Location, WallColor, Color_Location);
+                DoCollisions(PlayerPos, Lvl2Walls, LVL2_WALLS_LENGTH, PECSize, PECSize, &WColidedArrIndex, &WColision);
+                if (WColision == true)
                     PlayerPos = PrevPPos;
-                }
-                DrawObj(shaderProgram, VAO, 6, Lvl2Coin, Position_Location, CoinColor, Color_Location);
+
+                DrawObj(shaderProgram, VAO, 6, Lvl2Coin, Position_Location, CoinColor, Color_Location); // Rysowanie Monetki
+
                 //Kolizje do przeciwnikow
                 DoCollisions(PlayerPos, Lvl2, LVL2_LENGTH, PECSize, PECSize, &EColidedArrIndex, &EColision);
+
                 //Kolizje Do sciany
-                Wall(PlayerPos, WALLUP, WALLLEFT, WALLDOWN, WALLRIGHT, 21, PECSize, WColidedArrIndex, WallCol);
+                Wall(PlayerPos, WALLUP, WALLLEFT, WALLDOWN, WALLRIGHT, 21, PECSize, WallsColidedArrIndex, WallCol);
+
                 //TIMER
                 DrawObjects(TIMER_POSITIONS, 21, shaderProgram, VAO, 6, Position_Location, glm::vec3(0.0f, 0.5f, 0.5f), Color_Location);
-                if (EColision == true) // Sprawdza czy gracz wszedl w jakiegos przeciwnika jesli tak to smierc
+
+                if (EColision == true) // Sprawdza czy gracz wszedl w jakiegos przeciwnika jesli tak to przegrana
                 {
                     lvl = 0;
                     SetPos = false;
@@ -308,13 +322,14 @@ int main()
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (key == GLFW_KEY_ESCAPE && CLICKED(key, action))
-    {
         pause = !pause;
-    }
+
     if (pause == true)
-    {
         Menu(GameStatus::PAUSE, key, action);
-    }
+
+    if (lvl == 0)
+        Menu(GameStatus::DEAD, key, action);
+
     if (action == GLFW_PRESS || action == GLFW_REPEAT && action != GLFW_RELEASE)
     {
         if (pause == false)

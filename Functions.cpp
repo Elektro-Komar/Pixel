@@ -61,10 +61,10 @@ void Menu(GameStatus status, int key, int action)
     //TODO: Dorobic menu dla - DEAD i PAUSE
     if (status == GameStatus::DEAD)
     {
-        
+        std::cout << "Przegrales" << std::endl;
     }
     if (status == GameStatus::PAUSE)
     {
-        
+        std::cout << "Pauza kliknij jeszcze raz escape aby wrocic" << std::endl;
     }
 }
